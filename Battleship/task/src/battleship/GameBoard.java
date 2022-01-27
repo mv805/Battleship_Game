@@ -41,6 +41,12 @@ public class GameBoard {
         System.out.println();
     }
 
+    void addShipToBoard(Ship ship){
+
+
+    }
+
+
 
 
 }
