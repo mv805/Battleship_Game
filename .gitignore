@@ -1,0 +1,127 @@
+/gradlew
+/settings.gradle
+/gradlew.bat
+/course-remote-info.yaml
+/course-info.yaml
+/build.gradle
+/.gradle/7.1/dependencies-accessors/dependencies-accessors.lock
+/.gradle/7.1/dependencies-accessors/gc.properties
+/.gradle/7.1/executionHistory/executionHistory.bin
+/.gradle/7.1/executionHistory/executionHistory.lock
+/.gradle/7.1/fileChanges/last-build.bin
+/.gradle/7.1/fileHashes/fileHashes.bin
+/.gradle/7.1/fileHashes/fileHashes.lock
+/.gradle/7.1/gc.properties
+/.gradle/7.3.3/checksums/checksums.lock
+/.gradle/7.3.3/checksums/md5-checksums.bin
+/.gradle/7.3.3/checksums/sha1-checksums.bin
+/.gradle/7.3.3/dependencies-accessors/dependencies-accessors.lock
+/.gradle/7.3.3/dependencies-accessors/gc.properties
+/.gradle/7.3.3/executionHistory/executionHistory.lock
+/.gradle/7.3.3/fileChanges/last-build.bin
+/.gradle/7.3.3/fileHashes/fileHashes.lock
+/.gradle/7.3.3/gc.properties
+/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+/.gradle/buildOutputCleanup/cache.properties
+/.gradle/checksums/checksums.lock
+/.gradle/checksums/md5-checksums.bin
+/.gradle/checksums/sha1-checksums.bin
+/.gradle/vcs-1/gc.properties
+/.idea/frameworkLessonHistory/storage.storageData
+/.idea/frameworkLessonHistory/storage.storageRecordIndex
+/.idea/libraries/Gradle__com_github_hyperskill_hs_test_release_SNAPSHOT.xml
+/.idea/libraries/Gradle__com_google_code_gson_gson_2_8_5.xml
+/.idea/libraries/Gradle__commons_codec_commons_codec_1_11.xml
+/.idea/libraries/Gradle__commons_logging_commons_logging_1_2.xml
+/.idea/libraries/Gradle__junit_junit_4_12.xml
+/.idea/libraries/Gradle__org_apache_httpcomponents_httpclient_4_5_9.xml
+/.idea/libraries/Gradle__org_apache_httpcomponents_httpcore_4_4_11.xml
+/.idea/libraries/Gradle__org_assertj_assertj_core_3_11_1.xml
+/.idea/libraries/Gradle__org_assertj_assertj_swing_3_9_2.xml
+/.idea/libraries/Gradle__org_assertj_assertj_swing_junit_3_9_2.xml
+/.idea/libraries/Gradle__org_easytesting_fest_reflect_1_4_1.xml
+/.idea/libraries/Gradle__org_easytesting_fest_util_1_2_5.xml
+/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml
+/.idea/modules/Battleship/task/Battleship.Battleship-task.iml
+/.idea/modules/Battleship/task/Battleship.Battleship-task.main.iml
+/.idea/modules/Battleship/task/Battleship.Battleship-task.test.iml
+/.idea/modules/Topics/Files/Are siblings/Battleship.Topics-Files-Are_siblings.iml
+/.idea/modules/Topics/Files/Are siblings/Battleship.Topics-Files-Are_siblings.main.iml
+/.idea/modules/Topics/Files/Are siblings/Battleship.Topics-Files-Are_siblings.test.iml
+/.idea/modules/Topics/Files/Theory/Battleship.Topics-Files-Theory.iml
+/.idea/modules/Topics/Files/Theory/Battleship.Topics-Files-Theory.main.iml
+/.idea/modules/Topics/Files/Theory/Battleship.Topics-Files-Theory.test.iml
+/.idea/modules/util/Battleship.util.iml
+/.idea/modules/util/Battleship.util.main.iml
+/.idea/modules/util/Battleship.util.test.iml
+/.idea/modules/Battleship.iml
+/.idea/.gitignore
+/.idea/compiler.xml
+/.idea/externalDependencies.xml
+/.idea/gradle.xml
+/.idea/jarRepositories.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/Battleship/Fog of war/task.html
+/Battleship/Fog of war/task-info.yaml
+/Battleship/Fog of war/task-remote-info.yaml
+/Battleship/Friend or foe/task.html
+/Battleship/Friend or foe/task-info.yaml
+/Battleship/Friend or foe/task-remote-info.yaml
+/Battleship/Take position_/task.html
+/Battleship/Take position_/task-info.yaml
+/Battleship/Take position_/task-remote-info.yaml
+/Battleship/task/out/production/classes/battleship/BoardSymbol.class
+/Battleship/task/out/production/classes/battleship/Game$1.class
+/Battleship/task/out/production/classes/battleship/Game.class
+/Battleship/task/out/production/classes/battleship/GameBoard.class
+/Battleship/task/out/production/classes/battleship/GameState.class
+/Battleship/task/out/production/classes/battleship/Main.class
+/Battleship/task/out/production/classes/battleship/Ship.class
+/Battleship/task/test/Tests.java
+/Battleship/The end of the war/task.html
+/Battleship/The end of the war/task-info.yaml
+/Battleship/The end of the war/task-remote-info.yaml
+/Battleship/The first shot/task.html
+/Battleship/The first shot/task-info.yaml
+/Battleship/The first shot/task-remote-info.yaml
+/Battleship/lesson-info.yaml
+/gradle/wrapper/gradle-wrapper.jar
+/gradle/wrapper/gradle-wrapper.properties
+/.gradle/7.3.3/executionHistory/executionHistory.bin
+/.gradle/7.3.3/fileHashes/fileHashes.bin
+/.gradle/7.3.3/fileHashes/resourceHashesCache.bin
+/.gradle/buildOutputCleanup/outputFiles.bin
+/.gradle/file-system.probe
+/Battleship/task/build/classes/java/main/battleship/BoardSymbol.class
+/Battleship/task/build/classes/java/main/battleship/Game$1.class
+/Battleship/task/build/classes/java/main/battleship/Game.class
+/Battleship/task/build/classes/java/main/battleship/GameBoard.class
+/Battleship/task/build/classes/java/main/battleship/GameState.class
+/Battleship/task/build/classes/java/main/battleship/Main.class
+/Battleship/task/build/classes/java/main/battleship/Ship.class
+/Battleship/task/build/classes/java/test/Tests.class
+/Battleship/task/build/reports/tests/test/classes/Tests.html
+/Battleship/task/build/reports/tests/test/css/base-style.css
+/Battleship/task/build/reports/tests/test/css/style.css
+/Battleship/task/build/reports/tests/test/js/report.js
+/Battleship/task/build/reports/tests/test/packages/default-package.html
+/Battleship/task/build/reports/tests/test/index.html
+/Battleship/task/build/test-results/test/binary/output.bin
+/Battleship/task/build/test-results/test/binary/output.bin.idx
+/Battleship/task/build/test-results/test/binary/results.bin
+/Battleship/task/build/test-results/test/TEST-Tests.xml
+/Battleship/task/build/tmp/compileJava/previous-compilation-data.bin
+/Battleship/task/build/tmp/compileTestJava/previous-compilation-data.bin
+/Battleship/task/build/tmp/test/jar_extract_17117691711084259480_tmp
+/Topics/Files/Are siblings/src/Main.java
+/Topics/Files/Are siblings/task.html
+/Topics/Files/Are siblings/task-info.yaml
+/Topics/Files/Are siblings/task-remote-info.yaml
+/Topics/Files/Theory/src/Task.java
+/Topics/Files/Theory/task.html
+/Topics/Files/Theory/task-info.yaml
+/Topics/Files/Theory/task-remote-info.yaml
+/Topics/Files/lesson-info.yaml
+/Topics/section-info.yaml
