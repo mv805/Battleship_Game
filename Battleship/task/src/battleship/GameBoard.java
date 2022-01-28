@@ -42,8 +42,27 @@ public class GameBoard {
     }
 
     void addShipToBoard(Ship ship){
+        /*
+            array
 
+             i |
+               V                 x y coordinates
+            [0, 0] [0, 1] <-j    (0) (0) x1, y1
+            [1, 0] [1, 1]        (0) (1)
+            [2, 0] [2, 1]        (0) (2)
+            [3, 0] [3, 1]        (0) (3)
+            [4, 0] [4, 1]        (0) (4) x2, y2
+        */
 
+        for (int i = 0; i < ship.posCoord.length; i++){
+
+            int posX1 = ship.posCoord[i][0];
+            int posY1 = ship.posCoord[i][1];
+
+            gameBoard[posX1][posY1] =
+                    BoardSymbol.SHIP_CELL.getSymbol();
+
+        }
     }
 
 

@@ -48,14 +48,27 @@ public class Game {
                 promptShipPlacement(ship);
 
                 //define the ship coordinates
-                shipCoord = convertToArrayIndex(scanner.nextLine().replaceAll("\\s", "")
+                shipCoord = convertToIntIndex(scanner.nextLine()
+                        .replaceAll("\\s", "")
                         .toCharArray());
 
             }while (!checkValidShipCoord(shipCoord));
+            /*for (int integer: shipCoord) {
+                System.out.println(integer + " ");
 
+            }*/
             //hand coordinates to board to place
-            ship.defineEndpoints(shipCoord);
+            ship.recordShipCoord(shipCoord);
+            /*for (int i = 0; i < ship.posCoord.length; i++){
+                for (int j = 0; j < ship.posCoord[i].length; j++){
+                    System.out.printf("%d ", ship.posCoord[i][j]);
+
+                }
+                System.out.println();
+            }*/
+            //hand coordinates to board to place
             board.addShipToBoard(ship);
+            board.printBoard();
         }
     }
 
@@ -73,11 +86,11 @@ public class Game {
         return true;
     }
 
-    int[] convertToArrayIndex(char[] shipCoord) {
+    int[] convertToIntIndex(char[] shipCoord) {
         int aIndex = 65;
         return new int[] { (int) shipCoord[0] - aIndex,
-                Character.getNumericValue(shipCoord[1]),
+                Character.getNumericValue(shipCoord[1] - 1),
                 (int) shipCoord[2] - aIndex,
-                Character.getNumericValue(shipCoord[3])};
+                Character.getNumericValue(shipCoord[3]) - 1};
     }
 }
