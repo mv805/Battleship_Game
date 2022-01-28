@@ -54,7 +54,7 @@ public class GameBoard {
             [3, 0] [3, 1]        (0) (3)
             [4, 0] [4, 1]        (0) (4) x2, y2
         */
-        /* SET FOR REMOVAL
+
         for (int i = 0; i < ship.posCoord.length; i++){
 
             int posX1 = ship.posCoord[i][0];
@@ -63,11 +63,7 @@ public class GameBoard {
             gameBoard[posX1][posY1] =
                     BoardSymbol.SHIP_CELL.getSymbol();
 
-        }*/
+        }
 
     }
-
-
-
-
 }

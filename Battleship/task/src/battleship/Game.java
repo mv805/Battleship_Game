@@ -42,28 +42,23 @@ public class Game {
     private void placeShips(Ship[] gameShips) {
 
         for (Ship ship: gameShips) {
+
             int[] shipCoord;
+            System.out.printf("Enter the coordinates of the %s (%d cells)%n%n",
+                    ship.getType(), ship.getShipLength());
 
-            //prompt for input
-            promptShipPlacement(ship);
             do {
-                //define the ship coordinates
                 shipCoord = inputToIntArray();
-
             }while (!checkValidShipCoord(shipCoord, ship));
             
             //hand coordinates to board to place
-            ship.recordShipCoord(shipCoord);
+            ship.posCoord =
+                    CoordinateTool.returnCoordinate(shipCoord, ship.posCoord);
 
             //hand coordinates to board to place
             board.addShipToBoard(ship);
             board.printBoard();
         }
-    }
-
-    private void promptShipPlacement(Ship ship){
-        System.out.printf("Enter the coordinates of the %s (%d cells)%n%n",
-                ship.getType(), ship.getShipStatus().length);
     }
 
     private boolean checkValidShipCoord(int[] coordinates, Ship ship){
@@ -77,17 +72,18 @@ public class Game {
         // or A1 to E1, 0 0 4 0 vertical
 
         //logic to check for:
-        // diagonal,
+        // diagonal,[ok]
         // too close,
         // right distance [OK]
         // not crossing another ship
 
         //check if valid distance
-        if (ship.getShipStatus().length != twoPointDistance(coordinates)){
+        if (ship.getShipLength() != twoPointDistance(coordinates)){
             System.out.printf("Error! Wrong length of the %s! Try again:%n%n",
                     ship.getType());
             return false;
-        } else if (x1 != x2 && y2 != y1){
+        //check if diagonal input
+        } else if (x1 != x2 && y2 != y1) {
             System.out.printf("Error! Wrong ship location! Try again:%n%n");
             return false;
         }
@@ -96,11 +92,11 @@ public class Game {
     }
 
     int[] inputToIntArray(){
-        //recieve input per grid letter and number format and returns it in
-        //an index format for array (and in an array)
+
+        //receive input per grid letter and number format and returns it in
+        //an array format
         final int aValue = 65;
         int[] intInput = new int[4];
-        int index = 0;
 
         String[] stringInput = scanner.nextLine().split(" ");
 
@@ -147,5 +143,4 @@ public class Game {
 
         return (int) Point2D.distance(x1, y1, x2, y2) + 1;
     }
-
 }
