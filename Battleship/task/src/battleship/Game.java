@@ -51,6 +51,7 @@ public class Game {
                 shipCoord = inputToIntArray();
 
             }while (!checkValidShipCoord(shipCoord));
+            //debug
             for (int integer: shipCoord) {
                 System.out.println(integer);
             }
@@ -93,21 +94,31 @@ public class Game {
 
         String[] stringInput = scanner.nextLine().split(" ");
 
-        //debug
-        for (String word: stringInput) {
-            System.out.println(word);
+        if (stringInput[0].length() > 2 && stringInput[1].length() == 2){
+            intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
+            intInput[1] = board.gameBoard[0].length - 1;
+            intInput[2] = (int) (stringInput[1].charAt(0)) - aValue;
+            intInput[3] = Character.getNumericValue(stringInput[1].charAt(1)) - 1;
+            return intInput;
+        } else if (stringInput[1].length() > 2 && stringInput[0].length() == 2){
+            intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
+            intInput[1] = Character.getNumericValue(stringInput[0].charAt(1)) - 1;
+            intInput[2] = (int) (stringInput[1].charAt(0)) - aValue;
+            intInput[3] = board.gameBoard[0].length - 1;
+            return intInput;
+        } else if (stringInput[0].length() > 2 && stringInput[1].length() > 2){
+            intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
+            intInput[1] = board.gameBoard[0].length - 1;
+            intInput[2] = (int) (stringInput[1].charAt(0)) - aValue;
+            intInput[3] = board.gameBoard[0].length - 1;
+            return intInput;
+        } else {
+            intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
+            intInput[1] = Character.getNumericValue(stringInput[0].charAt(1)) - 1;
+            intInput[2] = (int) (stringInput[1].charAt(0)) - aValue;
+            intInput[3] = Character.getNumericValue(stringInput[1].charAt(1)) - 1;
+            return intInput;
         }
-        for (String word: stringInput) {
-            if (word.length() > 2){
-                intInput[index] = Character.getNumericValue(
-                        stringInput[index].charAt(0) - 1) - aValue;
-                intInput[index + 1] = 10;
-            }
-            intInput[index] = Character.getNumericValue(
-                    stringInput[index].charAt(0) - 1) - aValue;
-            intInput[index + 1] = stringInput[index].charAt(1);
-            index++;
-        }
-        return intInput;
+
     }
 }
