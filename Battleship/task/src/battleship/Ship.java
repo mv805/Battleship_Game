@@ -11,11 +11,7 @@ public class Ship {
     private final int x2 = 2;
     private final int y2 = 3;
 
-    //int[] posXYfirst = new int[2];
-    //int[] posXYlast = new int[2];
     int[][] posCoord;
-    int[][] boardSim = new int[10][10];
-
 
     public Ship(String type, int length) {
         this.shipStatus = new char[length];

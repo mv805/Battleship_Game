@@ -48,24 +48,15 @@ public class Game {
                 promptShipPlacement(ship);
 
                 //define the ship coordinates
-                shipCoord = convertToIntIndex(scanner.nextLine()
-                        .replaceAll("\\s", "")
-                        .toCharArray());
+                shipCoord = inputToIntArray();
 
             }while (!checkValidShipCoord(shipCoord));
-            /*for (int integer: shipCoord) {
-                System.out.println(integer + " ");
-
-            }*/
+            for (int integer: shipCoord) {
+                System.out.println(integer);
+            }
             //hand coordinates to board to place
             ship.recordShipCoord(shipCoord);
-            /*for (int i = 0; i < ship.posCoord.length; i++){
-                for (int j = 0; j < ship.posCoord[i].length; j++){
-                    System.out.printf("%d ", ship.posCoord[i][j]);
 
-                }
-                System.out.println();
-            }*/
             //hand coordinates to board to place
             board.addShipToBoard(ship);
             board.printBoard();
@@ -92,5 +83,31 @@ public class Game {
                 Character.getNumericValue(shipCoord[1] - 1),
                 (int) shipCoord[2] - aIndex,
                 Character.getNumericValue(shipCoord[3]) - 1};
+    }
+
+    int[] inputToIntArray(){
+
+        final int aValue = 65;
+        int[] intInput = new int[4];
+        int index = 0;
+
+        String[] stringInput = scanner.nextLine().split(" ");
+
+        //debug
+        for (String word: stringInput) {
+            System.out.println(word);
+        }
+        for (String word: stringInput) {
+            if (word.length() > 2){
+                intInput[index] = Character.getNumericValue(
+                        stringInput[index].charAt(0) - 1) - aValue;
+                intInput[index + 1] = 10;
+            }
+            intInput[index] = Character.getNumericValue(
+                    stringInput[index].charAt(0) - 1) - aValue;
+            intInput[index + 1] = stringInput[index].charAt(1);
+            index++;
+        }
+        return intInput;
     }
 }
