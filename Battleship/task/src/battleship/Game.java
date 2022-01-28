@@ -51,10 +51,7 @@ public class Game {
                 shipCoord = inputToIntArray();
 
             }while (!checkValidShipCoord(shipCoord));
-            //debug
-            for (int integer: shipCoord) {
-                System.out.println(integer);
-            }
+            
             //hand coordinates to board to place
             ship.recordShipCoord(shipCoord);
 
@@ -76,14 +73,6 @@ public class Game {
         //enough, check for not crossing
         //print appropriate error if false
         return true;
-    }
-
-    int[] convertToIntIndex(char[] shipCoord) {
-        int aIndex = 65;
-        return new int[] { (int) shipCoord[0] - aIndex,
-                Character.getNumericValue(shipCoord[1] - 1),
-                (int) shipCoord[2] - aIndex,
-                Character.getNumericValue(shipCoord[3]) - 1};
     }
 
     int[] inputToIntArray(){
@@ -119,6 +108,5 @@ public class Game {
             intInput[3] = Character.getNumericValue(stringInput[1].charAt(1)) - 1;
             return intInput;
         }
-
     }
 }
