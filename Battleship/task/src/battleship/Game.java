@@ -62,23 +62,36 @@ public class Game {
     }
 
     private void promptShipPlacement(Ship ship){
-        System.out.printf("Enter the coordinates of the %s (%d cells)%n",
+        System.out.printf("Enter the coordinates of the %s (%d cells)%n%n",
                 ship.getType(), ship.getShipStatus().length);
     }
 
     private boolean checkValidShipCoord(int[] coordinates, Ship ship){
-        //input for A1 to A5 would be 0 0 0 4 for example...
-        // or A1 to E1 0 0 4 0
+
+        int x2 = coordinates[2];
+        int y2 = coordinates[3];
+        int x1 = coordinates[0];
+        int y1 = coordinates[1];
+
+        //input for A1 to A5 would be 0 0 0 4 for horizontal example
+        // or A1 to E1, 0 0 4 0 vertical
+
+        //logic to check for:
+        // diagonal,
+        // too close,
+        // right distance [OK]
+        // not crossing another ship
 
         //check if valid distance
         if (ship.getShipStatus().length != twoPointDistance(coordinates)){
             System.out.printf("Error! Wrong length of the %s! Try again:%n%n",
                     ship.getType());
             return false;
+        } else if (x1 != x2 && y2 != y1){
+            System.out.printf("Error! Wrong ship location! Try again:%n%n");
+            return false;
         }
-        //logic to : check for diagonal, check for too close, check for long
-        //enough, check for not crossing
-        //print appropriate error if false
+
         return true;
     }
 
