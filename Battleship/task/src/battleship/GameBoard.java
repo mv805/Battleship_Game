@@ -55,10 +55,10 @@ public class GameBoard {
             [4, 0] [4, 1]        (0) (4) x2, y2
         */
 
-        for (int i = 0; i < ship.posCoord.length; i++){
+        for (int i = 0; i < ship.getPosCoord().length; i++){
 
-            int posX1 = ship.posCoord[i][0];
-            int posY1 = ship.posCoord[i][1];
+            int posX1 = ship.getPosCoord()[i][0];
+            int posY1 = ship.getPosCoord()[i][1];
 
             gameBoard[posX1][posY1] =
                     BoardSymbol.SHIP_CELL.getSymbol();

@@ -6,7 +6,7 @@ public class Ship {
     private final int shipLength;
     int shipHits = 0;
 
-    int[][] posCoord;
+    private int[][] posCoord;
 
     public Ship(String type, int length) {
 
@@ -20,14 +20,10 @@ public class Ship {
         return type;
     }
     public int getShipLength() { return shipLength; }
-
-    void recordShipCoord(int[] intCoord){
+    public int[][] getPosCoord(){return posCoord;}
+    public void setPosCoord(int[] intCoord){
         //record the coordinates of the ship from two input points supplied
         //in an array (x1, y1, x2, y2)
-        posCoord = CoordinateTool.returnCoordinate(intCoord, posCoord);
-    }
-
-
-
-
+        posCoord =
+            CoordinateTool.returnCoordinate(intCoord, posCoord);}
 }

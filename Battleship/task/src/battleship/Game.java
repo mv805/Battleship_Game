@@ -52,8 +52,7 @@ public class Game {
             }while (!checkValidShipCoord(shipCoord, ship));
             
             //hand coordinates to board to place
-            ship.posCoord =
-                    CoordinateTool.returnCoordinate(shipCoord, ship.posCoord);
+            ship.setPosCoord(shipCoord);
 
             //hand coordinates to board to place
             board.addShipToBoard(ship);
