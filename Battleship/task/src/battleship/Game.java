@@ -35,8 +35,7 @@ public class Game {
                     gameState = GameState.CHOOSING_TARGET;
                     break;
                 case CHOOSING_TARGET:
-                    System.out.printf("Take a shot!%n%n");
-                    scanner.nextLine();
+                    takeShot();
                     break;
                 case EXITING:
                     gameOver = true;
@@ -60,6 +59,34 @@ public class Game {
             ship.setPosCoord(shipCoord);
             board.addShipToBoard(ship);
             board.printBoard();
+        }
+    }
+
+    private void takeShot(){
+        int[] hitCoord;
+        while (true){
+            System.out.printf("Take a shot!%n%n");
+            hitCoord = inputToIntArrayOnePoint();
+            if (hitCoord[0] > board.getGameBoard().length - 1 || hitCoord[1] >
+            board.getGameBoard()[0].length){
+                System.out.printf("Error! You entered the wrong coordinates! " +
+                        "Try again:%n%n");
+            }else {
+                break;
+            }
+        }
+        if (board.getGameBoard()[hitCoord[0]][hitCoord[1]] ==
+                BoardSymbol.SHIP_CELL.getSymbol()){
+            board.setGameBoard(hitCoord[0], hitCoord[1],
+                    BoardSymbol.HIT_CELL.getSymbol());
+            board.printBoard();
+            System.out.println("You hit a ship!");
+        } else {
+
+            board.setGameBoard(hitCoord[0], hitCoord[1],
+                    BoardSymbol.MISS_CELL.getSymbol());
+            board.printBoard();
+            System.out.println("You missed!");
         }
     }
 
@@ -104,7 +131,7 @@ public class Game {
 
         if (stringInput[0].length() > 2 && stringInput[1].length() == 2){
             intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
-            intInput[1] = board.gameBoard[0].length - 1;
+            intInput[1] = board.getGameBoard()[0].length - 1;
             intInput[2] = (int) (stringInput[1].charAt(0)) - aValue;
             intInput[3] = Character.getNumericValue(stringInput[1]
                     .charAt(1)) - 1;
@@ -114,13 +141,13 @@ public class Game {
             intInput[1] = Character.getNumericValue(stringInput[0]
                     .charAt(1)) - 1;
             intInput[2] = (int) (stringInput[1].charAt(0)) - aValue;
-            intInput[3] = board.gameBoard[0].length - 1;
+            intInput[3] = board.getGameBoard()[0].length - 1;
             return intInput;
         } else if (stringInput[0].length() > 2 && stringInput[1].length() > 2){
             intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
-            intInput[1] = board.gameBoard[0].length - 1;
+            intInput[1] = board.getGameBoard()[0].length - 1;
             intInput[2] = (int) (stringInput[1].charAt(0)) - aValue;
-            intInput[3] = board.gameBoard[0].length - 1;
+            intInput[3] = board.getGameBoard()[0].length - 1;
             return intInput;
         } else {
             intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
@@ -145,7 +172,7 @@ public class Game {
 
         if (stringInput[0].length() > 2){
             intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
-            intInput[1] = board.gameBoard[0].length - 1;
+            intInput[1] = Integer.parseInt(stringInput[0].substring(1));
             return intInput;
         } else {
             intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
@@ -154,6 +181,7 @@ public class Game {
             return intInput;
         }
     }
+
     int twoPointDistance(int[] array){
 
         // distance between two points stored in 4 digit array
@@ -174,7 +202,7 @@ public class Game {
 
         for (int i = 0; i < posCoord.length; i++){
             if (CoordinateTool.fivePointCheck(posCoord[i][0], posCoord[i][1]
-            , board.gameBoard)){
+            , board.getGameBoard())){
                 return true;
             }
         }

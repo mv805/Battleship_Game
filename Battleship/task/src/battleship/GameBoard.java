@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class GameBoard {
 
-    char[][] gameBoard;
+    private char[][] gameBoard;
 
     public GameBoard(int width, int height) {
 
@@ -12,6 +12,12 @@ public class GameBoard {
         fillBoardDefault('~');
     }
 
+    public char[][] getGameBoard() {
+        return gameBoard;
+    }
+    public void setGameBoard(int row, int column, char ch){
+        gameBoard[row][column] = ch;
+    }
     void fillBoardDefault(char fillChar){
         for (int i = 0; i < gameBoard.length; i++){
             for (int j = 0; j < gameBoard[i].length; j++){
@@ -65,4 +71,5 @@ public class GameBoard {
         }
 
     }
+
 }
