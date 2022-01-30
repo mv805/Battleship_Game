@@ -65,10 +65,10 @@ public class CoordinateTool {
         }else if (row != 0 && board[row - 1][col] ==
                 BoardSymbol.SHIP_CELL.getSymbol()){
             return true;
-        } else if (col != 9 && board[row][col + 1] ==
+        } else if (col != board[0].length - 1 && board[row][col + 1] ==
                 BoardSymbol.SHIP_CELL.getSymbol()){
             return true;
-        }else if (row != 9 && board[row + 1][col] ==
+        }else if (row != board.length - 1 && board[row + 1][col] ==
                 BoardSymbol.SHIP_CELL.getSymbol()){
             return true;
         }else if (col != 0 && board[row][col - 1] ==
