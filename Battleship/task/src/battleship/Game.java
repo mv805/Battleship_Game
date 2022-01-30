@@ -85,6 +85,10 @@ public class Game {
         } else if (x1 != x2 && y2 != y1) {
             System.out.printf("Error! Wrong ship location! Try again:%n%n");
             return false;
+        } else if (checkNearShip(coordinates, ship)){
+            System.out.println("Error! You placed it too close to another" +
+                    " one. Try again:");
+            return false;
         }
 
         return true;
@@ -141,5 +145,19 @@ public class Game {
         int y1 = array[1];
 
         return (int) Point2D.distance(x1, y1, x2, y2) + 1;
+    }
+
+    boolean checkNearShip(int[] coordinates, Ship ship){
+
+        int[][] posCoord = new int[ship.getShipLength()][2];
+        posCoord = CoordinateTool.returnCoordinate(coordinates,posCoord);
+
+        for (int i = 0; i < posCoord.length; i++){
+            if (CoordinateTool.fivePointCheck(posCoord[i][0], posCoord[i][1]
+            , board.gameBoard)){
+                return true;
+            }
+        }
+        return false;
     }
 }

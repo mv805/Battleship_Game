@@ -59,4 +59,24 @@ public class CoordinateTool {
         }
     }
 
+    public static boolean fivePointCheck(int row, int col, char[][] board) {
+        //System.out.println(row + " " + col);
+        if (board[row][col] == BoardSymbol.SHIP_CELL.getSymbol()){
+            return true;
+        }else if (row != 0 && board[row - 1][col] ==
+                BoardSymbol.SHIP_CELL.getSymbol()){
+            return true;
+        } else if (col != 9 && board[row][col + 1] ==
+                BoardSymbol.SHIP_CELL.getSymbol()){
+            return true;
+        }else if (row != 9 && board[row + 1][col] ==
+                BoardSymbol.SHIP_CELL.getSymbol()){
+            return true;
+        }else if (col != 0 && board[row][col - 1] ==
+                BoardSymbol.SHIP_CELL.getSymbol()){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
