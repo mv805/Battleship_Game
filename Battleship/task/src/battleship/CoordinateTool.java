@@ -19,7 +19,6 @@ public class CoordinateTool {
             [4, 0] [4, 1]        (5) (7) x2, y2         (4) (0) x2, y2
 
         */
-        int[][] posCoord = posCoordInput;
 
         int x2 = 2;
         int y1 = 1;
@@ -28,19 +27,19 @@ public class CoordinateTool {
 
         //if horizontal left to right
         if (intCoord[x1] == intCoord[x2] && intCoord[y1] < intCoord[y2]){
-            fillLeftToRight(intCoord[x1],intCoord[y1], posCoord);
+            fillLeftToRight(intCoord[x1],intCoord[y1], posCoordInput);
             //if horizontal right to left
         } else if (intCoord[x1] == intCoord[x2] && intCoord[y1] > intCoord[y2]){
-            fillLeftToRight(intCoord[x2],intCoord[y2], posCoord);
+            fillLeftToRight(intCoord[x2],intCoord[y2], posCoordInput);
             //if vertical top to bottom
         } else if (intCoord[y1] == intCoord[y2] && intCoord[x1] < intCoord[x2]){
-            fillTopToBottom(intCoord[x1],intCoord[y1], posCoord);
+            fillTopToBottom(intCoord[x1],intCoord[y1], posCoordInput);
             //if vertical bottom to top
         } else if (intCoord[y1] == intCoord[y2] && intCoord[x1] > intCoord[x2]){
-            fillTopToBottom(intCoord[x2],intCoord[y2], posCoord);
+            fillTopToBottom(intCoord[x2],intCoord[y2], posCoordInput);
         }
 
-        return posCoord;
+        return posCoordInput;
     }
     private static void fillLeftToRight(int x, int y, int[][] posCoord){
         //for filling the posCoord array with location info from left to right
@@ -60,7 +59,7 @@ public class CoordinateTool {
     }
 
     public static boolean fivePointCheck(int row, int col, char[][] board) {
-        //System.out.println(row + " " + col);
+
         if (board[row][col] == BoardSymbol.SHIP_CELL.getSymbol()){
             return true;
         }else if (row != 0 && board[row - 1][col] ==

@@ -5,7 +5,6 @@ import java.util.Arrays;
 public class GameBoard {
 
     char[][] gameBoard;
-    Ship[] shipsOnBoard = new Ship[5];
 
     public GameBoard(int width, int height) {
 
@@ -43,7 +42,7 @@ public class GameBoard {
     }
 
     void addShipToBoard(Ship ship){
-        /*
+        /*  reference of multi dim array and coordinate system
             array
 
              i |

@@ -50,11 +50,8 @@ public class Game {
             do {
                 shipCoord = inputToIntArray();
             }while (!checkValidShipCoord(shipCoord, ship));
-            
-            //hand coordinates to board to place
-            ship.setPosCoord(shipCoord);
 
-            //hand coordinates to board to place
+            ship.setPosCoord(shipCoord);
             board.addShipToBoard(ship);
             board.printBoard();
         }
@@ -70,12 +67,6 @@ public class Game {
         //input for A1 to A5 would be 0 0 0 4 for horizontal example
         // or A1 to E1, 0 0 4 0 vertical
 
-        //logic to check for:
-        // diagonal,[ok]
-        // too close,
-        // right distance [OK]
-        // not crossing another ship
-
         //check if valid distance
         if (ship.getShipLength() != twoPointDistance(coordinates)){
             System.out.printf("Error! Wrong length of the %s! Try again:%n%n",
@@ -85,6 +76,7 @@ public class Game {
         } else if (x1 != x2 && y2 != y1) {
             System.out.printf("Error! Wrong ship location! Try again:%n%n");
             return false;
+        //make sure not placed near another ship
         } else if (checkNearShip(coordinates, ship)){
             System.out.println("Error! You placed it too close to another" +
                     " one. Try again:");
