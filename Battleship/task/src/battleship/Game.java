@@ -30,7 +30,13 @@ public class Game {
                     break;
                 case PLACING_SHIPS:
                     placeShips(gameShips);
-                    gameState = GameState.EXITING;
+                    System.out.printf("The game starts!%n%n");
+                    board.printBoard();
+                    gameState = GameState.CHOOSING_TARGET;
+                    break;
+                case CHOOSING_TARGET:
+                    System.out.printf("Take a shot!%n%n");
+                    scanner.nextLine();
                     break;
                 case EXITING:
                     gameOver = true;
@@ -48,7 +54,7 @@ public class Game {
                     ship.getType(), ship.getShipLength());
 
             do {
-                shipCoord = inputToIntArray();
+                shipCoord = inputToIntArrayTwoPoints();
             }while (!checkValidShipCoord(shipCoord, ship));
 
             ship.setPosCoord(shipCoord);
@@ -86,14 +92,15 @@ public class Game {
         return true;
     }
 
-    int[] inputToIntArray(){
+    int[] inputToIntArrayTwoPoints(){
 
         //receive input per grid letter and number format and returns it in
         //an array format
         final int aValue = 65;
-        int[] intInput = new int[4];
 
         String[] stringInput = scanner.nextLine().split(" ");
+
+        int[] intInput = new int[4];
 
         if (stringInput[0].length() > 2 && stringInput[1].length() == 2){
             intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
@@ -126,6 +133,27 @@ public class Game {
         }
     }
 
+    int[] inputToIntArrayOnePoint(){
+
+        //receive input per grid letter and number format and returns it in
+        //an array format
+        final int aValue = 65;
+
+        String[] stringInput = scanner.nextLine().split(" ");
+
+        int[] intInput = new int[2];
+
+        if (stringInput[0].length() > 2){
+            intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
+            intInput[1] = board.gameBoard[0].length - 1;
+            return intInput;
+        } else {
+            intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
+            intInput[1] = Character.getNumericValue(stringInput[0]
+                    .charAt(1)) - 1;
+            return intInput;
+        }
+    }
     int twoPointDistance(int[] array){
 
         // distance between two points stored in 4 digit array
