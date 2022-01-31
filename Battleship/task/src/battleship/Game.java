@@ -7,7 +7,8 @@ public class Game {
 
     boolean gameOver = false;
     GameState gameState = GameState.PRINTING_BOARD;
-    GameBoard board = new GameBoard(10, 10);
+    GameBoard hiddenBoard = new GameBoard(10, 10);
+    GameBoard viewableBoard = new GameBoard(10, 10);
     Scanner scanner = new Scanner(System.in);
 
     Ship aircraftCarrier = new Ship("Aircraft Carrier", 5);
@@ -25,13 +26,13 @@ public class Game {
 
             switch (gameState){
                 case PRINTING_BOARD:
-                    board.printBoard();
+                    hiddenBoard.printBoard();
                     gameState = GameState.PLACING_SHIPS;
                     break;
                 case PLACING_SHIPS:
                     placeShips(gameShips);
                     System.out.printf("The game starts!%n%n");
-                    board.printBoard();
+                    viewableBoard.printBoard();
                     gameState = GameState.CHOOSING_TARGET;
                     break;
                 case CHOOSING_TARGET:
@@ -57,8 +58,8 @@ public class Game {
             }while (!checkValidShipCoord(shipCoord, ship));
 
             ship.setPosCoord(shipCoord);
-            board.addShipToBoard(ship);
-            board.printBoard();
+            hiddenBoard.addShipToBoard(ship);
+            hiddenBoard.printBoard();
         }
     }
 
@@ -67,26 +68,32 @@ public class Game {
         while (true){
             System.out.printf("Take a shot!%n%n");
             hitCoord = inputToIntArrayOnePoint();
-            if (hitCoord[0] > board.getGameBoard().length - 1 || hitCoord[1] >
-            board.getGameBoard()[0].length){
+            if (hitCoord[0] > hiddenBoard.getGameBoard().length - 1 || hitCoord[1] >
+            hiddenBoard.getGameBoard()[0].length){
                 System.out.printf("Error! You entered the wrong coordinates! " +
                         "Try again:%n%n");
             }else {
                 break;
             }
         }
-        if (board.getGameBoard()[hitCoord[0]][hitCoord[1]] ==
+        if (hiddenBoard.getGameBoard()[hitCoord[0]][hitCoord[1]] ==
                 BoardSymbol.SHIP_CELL.getSymbol()){
-            board.setGameBoard(hitCoord[0], hitCoord[1],
+            hiddenBoard.setGameBoard(hitCoord[0], hitCoord[1],
                     BoardSymbol.HIT_CELL.getSymbol());
-            board.printBoard();
+            viewableBoard.setGameBoard(hitCoord[0], hitCoord[1],
+                    BoardSymbol.HIT_CELL.getSymbol());
+            viewableBoard.printBoard();
             System.out.println("You hit a ship!");
+            hiddenBoard.printBoard();
         } else {
 
-            board.setGameBoard(hitCoord[0], hitCoord[1],
+            hiddenBoard.setGameBoard(hitCoord[0], hitCoord[1],
                     BoardSymbol.MISS_CELL.getSymbol());
-            board.printBoard();
+            viewableBoard.setGameBoard(hitCoord[0], hitCoord[1],
+                    BoardSymbol.MISS_CELL.getSymbol());
+            viewableBoard.printBoard();
             System.out.println("You missed!");
+            hiddenBoard.printBoard();
         }
     }
 
@@ -131,7 +138,7 @@ public class Game {
 
         if (stringInput[0].length() > 2 && stringInput[1].length() == 2){
             intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
-            intInput[1] = board.getGameBoard()[0].length - 1;
+            intInput[1] = hiddenBoard.getGameBoard()[0].length - 1;
             intInput[2] = (int) (stringInput[1].charAt(0)) - aValue;
             intInput[3] = Character.getNumericValue(stringInput[1]
                     .charAt(1)) - 1;
@@ -141,13 +148,13 @@ public class Game {
             intInput[1] = Character.getNumericValue(stringInput[0]
                     .charAt(1)) - 1;
             intInput[2] = (int) (stringInput[1].charAt(0)) - aValue;
-            intInput[3] = board.getGameBoard()[0].length - 1;
+            intInput[3] = hiddenBoard.getGameBoard()[0].length - 1;
             return intInput;
         } else if (stringInput[0].length() > 2 && stringInput[1].length() > 2){
             intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
-            intInput[1] = board.getGameBoard()[0].length - 1;
+            intInput[1] = hiddenBoard.getGameBoard()[0].length - 1;
             intInput[2] = (int) (stringInput[1].charAt(0)) - aValue;
-            intInput[3] = board.getGameBoard()[0].length - 1;
+            intInput[3] = hiddenBoard.getGameBoard()[0].length - 1;
             return intInput;
         } else {
             intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
@@ -202,7 +209,7 @@ public class Game {
 
         for (int i = 0; i < posCoord.length; i++){
             if (CoordinateTool.fivePointCheck(posCoord[i][0], posCoord[i][1]
-            , board.getGameBoard())){
+            , hiddenBoard.getGameBoard())){
                 return true;
             }
         }
