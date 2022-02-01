@@ -2,7 +2,7 @@ package battleship;
 
 public enum GameState {
     PLACING_SHIPS,
-    PRINTING_BOARD,
-    CHOOSING_TARGET,
+    TAKING_SHOT,
+    CHECKING_GAMEOVER,
     EXITING
 }

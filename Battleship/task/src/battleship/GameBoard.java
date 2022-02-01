@@ -15,9 +15,11 @@ public class GameBoard {
     public char[][] getGameBoard() {
         return gameBoard;
     }
+
     public void setGameBoard(int row, int column, char ch){
         gameBoard[row][column] = ch;
     }
+
     void fillBoardDefault(char fillChar){
         for (int i = 0; i < gameBoard.length; i++){
             for (int j = 0; j < gameBoard[i].length; j++){

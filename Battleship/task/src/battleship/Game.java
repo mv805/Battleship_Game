@@ -6,10 +6,11 @@ import java.util.Scanner;
 public class Game {
 
     boolean gameOver = false;
-    GameState gameState = GameState.PRINTING_BOARD;
+    GameState gameState = GameState.PLACING_SHIPS;
     GameBoard hiddenBoard = new GameBoard(10, 10);
     GameBoard viewableBoard = new GameBoard(10, 10);
     Scanner scanner = new Scanner(System.in);
+    char lastHitOrMiss = BoardSymbol.FOG_OF_WAR.getSymbol();;
 
     Ship aircraftCarrier = new Ship("Aircraft Carrier", 5);
     Ship battleship = new Ship("Battleship", 4);
@@ -19,30 +20,86 @@ public class Game {
     Ship[] gameShips = {aircraftCarrier, battleship, submarine, cruiser,
         destroyer};
 
+    int totalHitCells;
+    int[] hitCoord;
+
+    public Game() {
+        for (Ship ship: gameShips) {
+            totalHitCells += ship.getShipLength();
+
+        }
+    }
 
     public void playGame(){
+
+        hiddenBoard.printBoard();
 
         while (!gameOver) {
 
             switch (gameState){
-                case PRINTING_BOARD:
-                    hiddenBoard.printBoard();
-                    gameState = GameState.PLACING_SHIPS;
-                    break;
                 case PLACING_SHIPS:
                     placeShips(gameShips);
                     System.out.printf("The game starts!%n%n");
                     viewableBoard.printBoard();
-                    gameState = GameState.CHOOSING_TARGET;
+                    gameState = GameState.TAKING_SHOT;
                     break;
-                case CHOOSING_TARGET:
-                    takeShot();
+                case TAKING_SHOT:
+                    hitCoord = takeShot();
+                    recordHitsAndMisses(hitCoord);
+                    viewableBoard.printBoard();
+                    gameState = GameState.CHECKING_GAMEOVER;
+                    break;
+                case CHECKING_GAMEOVER:
+                    if (checkGameOver()){
+                        gameState = GameState.EXITING;
+                    } else {
+                        displayHitOrMiss();
+                        gameState = GameState.TAKING_SHOT;
+                    }
                     break;
                 case EXITING:
+                    System.out.printf("You sank the last ship. You won. " +
+                            "Congratulations!");
                     gameOver = true;
                     break;
             }
         }
+    }
+
+    private void displayHitOrMiss() {
+        if (lastHitOrMiss == BoardSymbol.HIT_CELL.getSymbol()){
+            System.out.printf("You hit a ship! Try again:%n%n");
+        }else if (lastHitOrMiss == BoardSymbol.MISS_CELL.getSymbol()){
+            System.out.printf("You missed! Try again:%n%n");
+        }
+    }
+
+    private void recordHitsAndMisses(int[] hitCoord) {
+
+        if (hiddenBoard.getGameBoard()[hitCoord[0]][hitCoord[1]] ==
+                BoardSymbol.SHIP_CELL.getSymbol()){
+            hiddenBoard.setGameBoard(hitCoord[0], hitCoord[1],
+                    BoardSymbol.HIT_CELL.getSymbol());
+            viewableBoard.setGameBoard(hitCoord[0], hitCoord[1],
+                    BoardSymbol.HIT_CELL.getSymbol());
+            lastHitOrMiss = BoardSymbol.HIT_CELL.getSymbol();
+            totalHitCells--;
+
+        } else if (hiddenBoard.getGameBoard()[hitCoord[0]][hitCoord[1]] ==
+                BoardSymbol.FOG_OF_WAR.getSymbol()){
+            hiddenBoard.setGameBoard(hitCoord[0], hitCoord[1],
+                    BoardSymbol.MISS_CELL.getSymbol());
+            viewableBoard.setGameBoard(hitCoord[0], hitCoord[1],
+                    BoardSymbol.MISS_CELL.getSymbol());
+            lastHitOrMiss = BoardSymbol.MISS_CELL.getSymbol();
+        }
+    }
+
+    private boolean checkGameOver() {
+        if (totalHitCells == 0) {
+            return true;
+        }
+        return false;
     }
 
     private void placeShips(Ship[] gameShips) {
@@ -63,11 +120,14 @@ public class Game {
         }
     }
 
-    private void takeShot(){
+    private int[] takeShot(){
+
         int[] hitCoord;
+
         while (true){
             System.out.printf("Take a shot!%n%n");
             hitCoord = inputToIntArrayOnePoint();
+            System.out.println();
             if (hitCoord[0] > hiddenBoard.getGameBoard().length - 1 || hitCoord[1] >
             hiddenBoard.getGameBoard()[0].length){
                 System.out.printf("Error! You entered the wrong coordinates! " +
@@ -76,25 +136,7 @@ public class Game {
                 break;
             }
         }
-        if (hiddenBoard.getGameBoard()[hitCoord[0]][hitCoord[1]] ==
-                BoardSymbol.SHIP_CELL.getSymbol()){
-            hiddenBoard.setGameBoard(hitCoord[0], hitCoord[1],
-                    BoardSymbol.HIT_CELL.getSymbol());
-            viewableBoard.setGameBoard(hitCoord[0], hitCoord[1],
-                    BoardSymbol.HIT_CELL.getSymbol());
-            viewableBoard.printBoard();
-            System.out.println("You hit a ship!");
-            hiddenBoard.printBoard();
-        } else {
-
-            hiddenBoard.setGameBoard(hitCoord[0], hitCoord[1],
-                    BoardSymbol.MISS_CELL.getSymbol());
-            viewableBoard.setGameBoard(hitCoord[0], hitCoord[1],
-                    BoardSymbol.MISS_CELL.getSymbol());
-            viewableBoard.printBoard();
-            System.out.println("You missed!");
-            hiddenBoard.printBoard();
-        }
+        return hitCoord;
     }
 
     private boolean checkValidShipCoord(int[] coordinates, Ship ship){
@@ -173,17 +215,17 @@ public class Game {
         //an array format
         final int aValue = 65;
 
-        String[] stringInput = scanner.nextLine().split(" ");
+        String stringInput = scanner.nextLine();
 
         int[] intInput = new int[2];
 
-        if (stringInput[0].length() > 2){
-            intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
-            intInput[1] = Integer.parseInt(stringInput[0].substring(1));
+        if (stringInput.length() > 2){
+            intInput[0] = (int) (stringInput.charAt(0)) - aValue;
+            intInput[1] = Integer.parseInt(stringInput.substring(1)) - 1;
             return intInput;
         } else {
-            intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
-            intInput[1] = Character.getNumericValue(stringInput[0]
+            intInput[0] = (int) (stringInput.charAt(0)) - aValue;
+            intInput[1] = Character.getNumericValue(stringInput
                     .charAt(1)) - 1;
             return intInput;
         }
