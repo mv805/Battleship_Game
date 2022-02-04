@@ -6,140 +6,175 @@ import java.util.Scanner;
 public class Game {
 
     boolean gameOver = false;
-    GameState gameState = GameState.PLACING_SHIPS;
-    GameBoard hiddenBoard = new GameBoard(10, 10);
-    GameBoard viewableBoard = new GameBoard(10, 10);
-    Scanner scanner = new Scanner(System.in);
-    char lastHitOrMiss = BoardSymbol.FOG_OF_WAR.getSymbol();;
-
-    Ship aircraftCarrier = new Ship("Aircraft Carrier", 5);
-    Ship battleship = new Ship("Battleship", 4);
-    Ship submarine = new Ship("Submarine", 3);
-    Ship cruiser = new Ship("Cruiser", 3);
-    Ship destroyer = new Ship("Destroyer", 2);
-    Ship[] gameShips = {aircraftCarrier, battleship, submarine, cruiser,
-        destroyer};
-
-    int totalHitCells;
-    int[] hitCoord;
-
-    public Game() {
-        for (Ship ship: gameShips) {
-            totalHitCells += ship.getShipLength();
-
-        }
-    }
+    private GameState gameState = GameState.PLACING_SHIPS;
+    private CurrentPlayer currentPlayer;
+    final public static Scanner scanner = new Scanner(System.in);
+    private Player player1 = new Player("Player 1");
+    private Player player2 = new Player("Player 2");
 
     public void playGame(){
-
-        hiddenBoard.printBoard();
 
         while (!gameOver) {
 
             switch (gameState){
                 case PLACING_SHIPS:
-                    placeShips(gameShips);
-                    System.out.printf("The game starts!%n%n");
-                    viewableBoard.printBoard();
+                    placeShips(player1);
+                    placeShips(player2);
+                    currentPlayer = CurrentPlayer.PLAYER_1;
                     gameState = GameState.TAKING_SHOT;
                     break;
                 case TAKING_SHOT:
-                    hitCoord = takeShot();
-                    recordHitsAndMisses(hitCoord);
-                    viewableBoard.printBoard();
+                    if (currentPlayer == CurrentPlayer.PLAYER_1){
+                        firingSequence(player1, player2);
+                    } else if (currentPlayer == CurrentPlayer.PLAYER_2){
+                        firingSequence(player2, player1);
+                    }
                     gameState = GameState.CHECKING_GAMEOVER;
                     break;
                 case CHECKING_GAMEOVER:
-                    if (checkGameOver()){
-                        gameState = GameState.EXITING;
-                    } else {
-                        displayHitOrMiss();
+                    if (currentPlayer == CurrentPlayer.PLAYER_1){
+                        gameOverCheckSequence(player1);
+                        currentPlayer = CurrentPlayer.PLAYER_2;
+                        gameState = GameState.TAKING_SHOT;
+                    } else if (currentPlayer == CurrentPlayer.PLAYER_2){
+                        gameOverCheckSequence(player2);
+                        currentPlayer = CurrentPlayer.PLAYER_1;
                         gameState = GameState.TAKING_SHOT;
                     }
                     break;
                 case EXITING:
-                    System.out.printf("You sank the last ship. You won. " +
-                            "Congratulations!");
                     gameOver = true;
                     break;
             }
         }
     }
 
-    private void displayHitOrMiss() {
-        if (lastHitOrMiss == BoardSymbol.HIT_CELL.getSymbol()){
-            System.out.printf("You hit a ship! Try again:%n%n");
-        }else if (lastHitOrMiss == BoardSymbol.MISS_CELL.getSymbol()){
-            System.out.printf("You missed! Try again:%n%n");
+    private void gameOverCheckSequence(Player player){
+
+        if (player.checkIfShipSunk() && player.totalHitCells == 0){
+            System.out.print("You sank the last ship. You won. " +
+                    "Congratulations!");
+            gameState = GameState.EXITING;
+        }else if (player.checkIfShipSunk()){
+            System.out.println("You sank a ship!");
+        }else if (player.lastHitOrMiss == BoardSymbol.MISS_CELL.getSymbol()){
+            System.out.printf("You missed!%n%n");
+        }else if (player.lastHitOrMiss == BoardSymbol.HIT_CELL.getSymbol()){
+            System.out.printf("You hit a ship!%n%n");
+            System.out.println(player.checkIfShipSunk());
         }
+        pauseForEnter();
     }
 
-    private void recordHitsAndMisses(int[] hitCoord) {
+    private void pauseForEnter(){
+        System.out.printf("Press Enter and pass the move to another " +
+                "player%n%n");
+        scanner.nextLine();
+    }
 
-        if (hiddenBoard.getGameBoard()[hitCoord[0]][hitCoord[1]] ==
+    private void firingSequence(Player playerFiring, Player playerReceiving){
+
+        playerReceiving.publicBoard.printBoard();
+        System.out.printf("---------------------%n");
+        playerFiring.privateBoard.printBoard();
+        playerFiring.hitCoord = takeShot(playerFiring);
+        recordHitsAndMisses(playerFiring.hitCoord, playerFiring,
+                playerReceiving);
+
+    }
+
+    private void recordHitsAndMisses(int[] hitCoord, Player playerFiring,
+                                     Player playerReceiving) {
+
+        if (playerReceiving.privateBoard.getGameBoard()[hitCoord[0]][hitCoord[1]] ==
                 BoardSymbol.SHIP_CELL.getSymbol()){
-            hiddenBoard.setGameBoard(hitCoord[0], hitCoord[1],
+            playerReceiving.publicBoard.setGameBoard(hitCoord[0], hitCoord[1],
                     BoardSymbol.HIT_CELL.getSymbol());
-            viewableBoard.setGameBoard(hitCoord[0], hitCoord[1],
+            playerReceiving.privateBoard.setGameBoard(hitCoord[0], hitCoord[1],
                     BoardSymbol.HIT_CELL.getSymbol());
-            lastHitOrMiss = BoardSymbol.HIT_CELL.getSymbol();
-            totalHitCells--;
+            playerFiring.lastHitOrMiss = BoardSymbol.HIT_CELL.getSymbol();
+            playerReceiving.recordShipHit(hitCoord);
+            playerReceiving.totalHitCells--;
 
-        } else if (hiddenBoard.getGameBoard()[hitCoord[0]][hitCoord[1]] ==
+        } else if (playerReceiving.privateBoard.getGameBoard()[hitCoord[0]][hitCoord[1]] ==
                 BoardSymbol.FOG_OF_WAR.getSymbol()){
-            hiddenBoard.setGameBoard(hitCoord[0], hitCoord[1],
+            playerReceiving.publicBoard.setGameBoard(hitCoord[0], hitCoord[1],
                     BoardSymbol.MISS_CELL.getSymbol());
-            viewableBoard.setGameBoard(hitCoord[0], hitCoord[1],
+            playerReceiving.privateBoard.setGameBoard(hitCoord[0], hitCoord[1],
                     BoardSymbol.MISS_CELL.getSymbol());
-            lastHitOrMiss = BoardSymbol.MISS_CELL.getSymbol();
+            playerFiring.lastHitOrMiss = BoardSymbol.MISS_CELL.getSymbol();
         }
     }
 
-    private boolean checkGameOver() {
-        if (totalHitCells == 0) {
-            return true;
-        }
-        return false;
-    }
+    private void placeShips(Player player) {
 
-    private void placeShips(Ship[] gameShips) {
+        System.out.printf("%s, place your ships on the game field%n%n",
+                player.getPlayerName());
+        player.publicBoard.printBoard();
+        System.out.println();
 
-        for (Ship ship: gameShips) {
+        for (Ship ship: player.gameShips) {
 
             int[] shipCoord;
+            System.out.println();
             System.out.printf("Enter the coordinates of the %s (%d cells)%n%n",
                     ship.getType(), ship.getShipLength());
+            System.out.println();
 
             do {
-                shipCoord = inputToIntArrayTwoPoints();
-            }while (!checkValidShipCoord(shipCoord, ship));
+                shipCoord = inputToIntArrayTwoPoints(player);
+            }while (!checkValidShipCoord(shipCoord, ship, player));
 
             ship.setPosCoord(shipCoord);
-            hiddenBoard.addShipToBoard(ship);
-            hiddenBoard.printBoard();
+            player.privateBoard.addShipToBoard(ship);
+            player.privateBoard.printBoard();
         }
+
+        pauseForEnter();
     }
 
-    private int[] takeShot(){
+    private int[] takeShot(Player player){
 
-        int[] hitCoord;
+        //returns a single valid attack coordinate i.e. D3(4,2), A6(0,5),  etc.
+        final int aValue = 65;
+        int[] hitCoord = new int[2];
+        System.out.printf("%s, its your turn:%n%n", player.getPlayerName());
 
-        while (true){
-            System.out.printf("Take a shot!%n%n");
-            hitCoord = inputToIntArrayOnePoint();
+        while (true) {
+
+            String stringInput = scanner.nextLine();
             System.out.println();
-            if (hitCoord[0] > hiddenBoard.getGameBoard().length - 1 || hitCoord[1] >
-            hiddenBoard.getGameBoard()[0].length){
+
+            if (stringInput.length() == 2) {
+                hitCoord[0] = (int) (stringInput.charAt(0)) - aValue;
+                hitCoord[1] = Character.getNumericValue(stringInput
+                        .charAt(1)) - 1;
+                break;
+            } else if (stringInput.length() > 2) {
+                hitCoord[0] = (int) (stringInput.charAt(0)) - aValue;
+                hitCoord[1] = Integer.parseInt(stringInput.substring(1)) - 1;
+
+                if (hitCoord[1] != 10){
+                    System.out.printf("Error! You entered the wrong coordinates! " +
+                            "Try again:%n%n");
+                    continue;
+                } else {
+                    hitCoord[0] = (int) (stringInput.charAt(0)) - aValue;
+                    hitCoord[1] = 10;
+                    break;
+                }
+            } else{
                 System.out.printf("Error! You entered the wrong coordinates! " +
                         "Try again:%n%n");
-            }else {
-                break;
             }
+
         }
+
         return hitCoord;
     }
 
-    private boolean checkValidShipCoord(int[] coordinates, Ship ship){
+    private boolean checkValidShipCoord(int[] coordinates, Ship ship,
+                                        Player player){
 
         int x2 = coordinates[2];
         int y2 = coordinates[3];
@@ -151,15 +186,19 @@ public class Game {
 
         //check if valid distance
         if (ship.getShipLength() != twoPointDistance(coordinates)){
+            System.out.println();
             System.out.printf("Error! Wrong length of the %s! Try again:%n%n",
                     ship.getType());
             return false;
         //check if diagonal input
         } else if (x1 != x2 && y2 != y1) {
+            //System.out.println();
             System.out.printf("Error! Wrong ship location! Try again:%n%n");
+            System.out.println();
             return false;
         //make sure not placed near another ship
-        } else if (checkNearShip(coordinates, ship)){
+        } else if (checkNearShip(coordinates, ship, player)){
+            System.out.println();
             System.out.println("Error! You placed it too close to another" +
                     " one. Try again:");
             return false;
@@ -168,7 +207,7 @@ public class Game {
         return true;
     }
 
-    int[] inputToIntArrayTwoPoints(){
+    int[] inputToIntArrayTwoPoints(Player player){
 
         //receive input per grid letter and number format and returns it in
         //an array format
@@ -180,7 +219,7 @@ public class Game {
 
         if (stringInput[0].length() > 2 && stringInput[1].length() == 2){
             intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
-            intInput[1] = hiddenBoard.getGameBoard()[0].length - 1;
+            intInput[1] = player.privateBoard.getGameBoard()[0].length - 1;
             intInput[2] = (int) (stringInput[1].charAt(0)) - aValue;
             intInput[3] = Character.getNumericValue(stringInput[1]
                     .charAt(1)) - 1;
@@ -190,13 +229,13 @@ public class Game {
             intInput[1] = Character.getNumericValue(stringInput[0]
                     .charAt(1)) - 1;
             intInput[2] = (int) (stringInput[1].charAt(0)) - aValue;
-            intInput[3] = hiddenBoard.getGameBoard()[0].length - 1;
+            intInput[3] = player.privateBoard.getGameBoard()[0].length - 1;
             return intInput;
         } else if (stringInput[0].length() > 2 && stringInput[1].length() > 2){
             intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
-            intInput[1] = hiddenBoard.getGameBoard()[0].length - 1;
+            intInput[1] = player.privateBoard.getGameBoard()[0].length - 1;
             intInput[2] = (int) (stringInput[1].charAt(0)) - aValue;
-            intInput[3] = hiddenBoard.getGameBoard()[0].length - 1;
+            intInput[3] = player.privateBoard.getGameBoard()[0].length - 1;
             return intInput;
         } else {
             intInput[0] = (int) (stringInput[0].charAt(0)) - aValue;
@@ -204,28 +243,6 @@ public class Game {
                     .charAt(1)) - 1;
             intInput[2] = (int) (stringInput[1].charAt(0)) - aValue;
             intInput[3] = Character.getNumericValue(stringInput[1]
-                    .charAt(1)) - 1;
-            return intInput;
-        }
-    }
-
-    int[] inputToIntArrayOnePoint(){
-
-        //receive input per grid letter and number format and returns it in
-        //an array format
-        final int aValue = 65;
-
-        String stringInput = scanner.nextLine();
-
-        int[] intInput = new int[2];
-
-        if (stringInput.length() > 2){
-            intInput[0] = (int) (stringInput.charAt(0)) - aValue;
-            intInput[1] = Integer.parseInt(stringInput.substring(1)) - 1;
-            return intInput;
-        } else {
-            intInput[0] = (int) (stringInput.charAt(0)) - aValue;
-            intInput[1] = Character.getNumericValue(stringInput
                     .charAt(1)) - 1;
             return intInput;
         }
@@ -244,17 +261,22 @@ public class Game {
         return (int) Point2D.distance(x1, y1, x2, y2) + 1;
     }
 
-    boolean checkNearShip(int[] coordinates, Ship ship){
+    boolean checkNearShip(int[] coordinates, Ship ship, Player player){
 
         int[][] posCoord = new int[ship.getShipLength()][2];
-        posCoord = CoordinateTool.returnCoordinate(coordinates,posCoord);
+        posCoord = CoordinateTool.fillCoordinate(coordinates,posCoord);
 
         for (int i = 0; i < posCoord.length; i++){
             if (CoordinateTool.fivePointCheck(posCoord[i][0], posCoord[i][1]
-            , hiddenBoard.getGameBoard())){
+            , player.privateBoard.getGameBoard())){
                 return true;
             }
         }
         return false;
+    }
+
+    enum CurrentPlayer{
+        PLAYER_1,
+        PLAYER_2
     }
 }

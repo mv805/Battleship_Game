@@ -2,7 +2,7 @@ package battleship;
 
 public class CoordinateTool {
 
-    public static int[][] returnCoordinate(int[] intCoord, int[][] posCoordInput){
+    public static int[][] fillCoordinate(int[] intCoord, int[][] posCoordInput){
         //with two points supplied in a 4 digit array (intCoord), return a multi
         //dim array of coordinate points (posCoord) of all points between the
         // two original points.
@@ -71,11 +71,16 @@ public class CoordinateTool {
         }else if (row != board.length - 1 && board[row + 1][col] ==
                 BoardSymbol.SHIP_CELL.getSymbol()){
             return true;
-        }else if (col != 0 && board[row][col - 1] ==
-                BoardSymbol.SHIP_CELL.getSymbol()){
-            return true;
-        } else {
-            return false;
+        }else return col != 0 && board[row][col - 1] ==
+                BoardSymbol.SHIP_CELL.getSymbol();
+    }
+
+    public static void printTwoDimArray(int[][] array){
+        for (int i = 0; i < array.length; i++){
+            for (int j = 0; j < array[i].length; j++){
+                System.out.print(array[i][j] + "  ");
+            }
+            System.out.println();
         }
     }
 }

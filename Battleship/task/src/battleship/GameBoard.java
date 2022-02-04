@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class GameBoard {
 
-    private char[][] gameBoard;
+    private final char[][] gameBoard;
 
     public GameBoard(int width, int height) {
 
@@ -38,7 +38,7 @@ public class GameBoard {
         System.out.println();
 
         //array with vertical index
-        for (int i = 0; i < gameBoard.length; i++){
+        for (int i = 0; i < gameBoard[0].length; i++){
             System.out.print(indexChar + " ");
             for (int j = 0; j < gameBoard[i].length; j++){
                 System.out.printf("%c ", gameBoard[i][j]);
@@ -46,7 +46,7 @@ public class GameBoard {
             System.out.println();
             indexChar++;
         }
-        System.out.println();
+        //System.out.println();
     }
 
     void addShipToBoard(Ship ship){
